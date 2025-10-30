@@ -8,8 +8,10 @@ git clone https://github.com/hiyouga/LLaMA-Factory.git
 cd LLaMA-Factory
 pip install -e ".[torch,metrics]"
 ```
-Install the required dependencies:
+Next, install the necessary dependencies by running:
+```bash
 pip install -r requirements.txt
+```
 
 ## Supervised Fine-Tuning (SFT)
 The training and export scripts are located in the finetune/ directory.
