@@ -1,11 +1,15 @@
 # Chinese-Medical-LLM
 A multi-agent Chinese medical large language model system combining retrieval, reasoning, and knowledge graph.
 
-# Install dependencies
+## Install dependencies
+```bash
 pip install -r requirements.txt
+```
+## Fine-Tuning Data
+Each stage has its own trining data located in finetune/dataset/
 
-# Run Fine-tuning
-Each stage has its own training and export script located in finetune/parameters.
+## Supervised Fine-Tuning (SFT)
+Each stage has its own training and export script located in finetune/
 
 ▶️ Stage 1
 ```bash
