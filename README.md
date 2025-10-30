@@ -16,14 +16,13 @@ The training and export scripts are located in the finetune/ directory.
 The training data is located in the finetune/dataset/ directory.
 
 ### Start training:
-You can use our fine-tuning script sft_train.sh or manually choose the parameters for fine-tuning on the llamafactory web interface.
-
-Run the sft_train.sh script to begin training:
+After the LLaMAFactory installation is complete, you can run the `sft_train.sh` script to begin training:
 ```bash
 bash sft_train.sh
 ```
 
-After the LLaMAFactory installation is complete, you can start the Web UI with the following command:
+Or you can manually choose the parameters for fine-tuning on the llamafactory web interface.
+start the Web UI with the following command:
 ```bash
 GRADIO_SERVER_PORT=7860 llamafactory-cli webui
 ```
