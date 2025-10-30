@@ -5,11 +5,9 @@ A multi-agent Chinese medical large language model system combining retrieval, r
 ```bash
 pip install -r requirements.txt
 ```
-## Fine-Tuning Data
-Each stage has its own trining data located in finetune/dataset/
 
 ## Supervised Fine-Tuning (SFT)
-Each stage has its own training and export script located in finetune/
+Each stage has its own training and export script located in finetune/, trining data located in finetune/dataset/, 
 
 ▶️ Stage 1
 ```bash
