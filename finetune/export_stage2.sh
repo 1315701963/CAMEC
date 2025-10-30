@@ -1,11 +1,11 @@
 llamafactory-cli export \
-    --model_name_or_path /home/zf1/WuYukang/AIstorian/model/lora_export_stage1 \
-    --adapter_name_or_path "$LATEST_CKPT" \
+    --model_name_or_path ./model/lora_export_stage1 \
+    --adapter_name_or_path ./model/lora/sft_stage2 \
     --template qwen3 \
     --finetuning_type lora \
     --trust_remote_code True \
     \
-    --export_dir /home/zf1/WuYukang/AIstorian/model/lora_export_stage2 \
+    --export_dir ./model/lora_export_stage2 \
     --export_size 2 \
     --export_device auto \
     --export_legacy_format False
