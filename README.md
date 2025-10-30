@@ -9,28 +9,16 @@ pip install -r requirements.txt
 ## Supervised Fine-Tuning (SFT)
 Each stage has its own training and export script located in finetune/, trining data located in finetune/dataset/, 
 
-▶️ Stage 1
+### Start training:
+Run the sft_train.sh script to begin training:
 ```bash
-bash sft_stage1_train.sh
-bash export_stage1.sh
+bash sft_train.sh
 ```
 
-▶️ Stage 2
+### Export the model:
+Run the lora_export.sh script to export the fine-tuned model:
 ```bash
-bash sft_stage2_train.sh
-bash export_stage2.sh
-```
-
-▶️ Stage 3
-```bash
-bash sft_stage3_train.sh
-bash export_stage3.sh
-```
-
-▶️ Stage 4
-```bash
-bash sft_stage4_train.sh
-bash export_stage4.sh
+bash lora_export.sh
 ```
 
 After each export, the LoRA adapters are merged into the base model for the next stage.
