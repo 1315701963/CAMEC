@@ -15,12 +15,16 @@ pip install -r requirements.txt
 The training and export scripts are located in the finetune/ directory.
 The training data is located in the finetune/dataset/ directory.
 
-### Start training:
+### Training and Export:
 After the LLaMAFactory installation is complete, you can run the `sft_train.sh` script to begin training:
 ```bash
 bash sft_train.sh
 ```
-
+Run the lora_export.sh script to export the fine-tuned model:
+```bash
+bash lora_export.sh
+```
+### llamafactory WebUI:
 Or you can manually choose the parameters for fine-tuning on the llamafactory web interface.
 start the Web UI with the following command:
 ```bash
@@ -36,10 +40,3 @@ If you want to access it over a local network or the internet, replace localhost
 
 
 
-### Export the model:
-Run the lora_export.sh script to export the fine-tuned model:
-```bash
-bash lora_export.sh
-```
-
-After each export, the LoRA adapters are merged into the base model for the next stage.
