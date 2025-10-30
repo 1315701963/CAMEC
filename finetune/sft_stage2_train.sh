@@ -6,7 +6,7 @@ llamafactory-cli train \
     --lora_target "q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj" \
     --lora_dropout 0.05 \
     \
-    --model_name_or_path /home/zf1/WuYukang/AIstorian/model/lora_export_stage1 \
+    --model_name_or_path ./model/lora_export_stage1 \
     --trust_remote_code True \
     --image_max_pixels 262144 \
     --video_max_pixels 16384 \
@@ -20,7 +20,7 @@ llamafactory-cli train \
     --dataloader_num_workers 2 \
     --val_size 0.02 \
     \
-    --output_dir /home/zf1/WuYukang/AIstorian/model/lora/sft_stage2 \
+    --output_dir ./model/lora/sft_stage2 \
     --logging_steps 10 \
     --save_steps 1000 \
     --plot_loss True \
