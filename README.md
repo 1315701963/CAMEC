@@ -89,7 +89,7 @@ Collection created: example_collection
 ```
 ### Importing Medical Data into Milvus
 After you have successfully installed and started Milvus, you can use the script `import.py` to load your dataset into the Milvus vector database.  
-```python
+```bash
 python import.py \
     --jsonl ./finetune/dataset/huatuo_sample.jsonl \
     --emb-model /path/to/Qwen2-embedding \
