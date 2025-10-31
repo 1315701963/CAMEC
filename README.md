@@ -42,11 +42,46 @@ If you want to access it over a local network or the internet, replace localhost
 
 ## Retrieval-Augmented Generation (RAG)
 To set up the RAG environment, you can follow these steps. We use Milvus as our victor database. Milvus is an open-source vector database designed for scalable similarity search. Here’s a step-by-step guide to help you set it up in your environment:
-### 1.Install Docker
+Connect & Use with Python 1.Install Docker
 Milvus provides official Docker images, so installing Docker is the easiest way to set up the environment.
+Connect & Use with PythonInstall Milvus
+Download the official Docker Compose file.
+```bash
+wget https://github.com/milvus-io/milvus/releases/download/v2.3.21/milvus-standalone-docker-compose.yml -O docker-compose.yml
+```
+In the same directory, start Milvus:
+```bash
+sudo docker compose up -d
+```
+Verify it is running:
+```bash
+sudo docker compose ps
+```
+You should see containers named like `milvus-etcd`, `milvus-minio`, `milvus-standalone` in “Up” state.
+### 3.Connect & Use with Python
+Install the Python SDK:
+```bash
+pip install pymilvus
+```
+Then in Python:
+```python
+from pymilvus import connections, Collection
 
+connections.connect(host="localhost", port="19530")
 
-
-
-
-
+# Example: create a collection
+collection = Collection(
+    name="example_collection",
+    schema={
+        "fields": [
+            {"name": "id", "dtype": "INT64", "is_primary": True},
+            {"name": "emb", "dtype": "FLOAT_VECTOR", "dim": 768}
+        ]
+    }
+)
+print("Collection created:", collection.name)
+```
+If everything runs successfully, the terminal will output:
+```yaml
+Collection created: example_collection
+```
