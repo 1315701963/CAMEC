@@ -87,3 +87,24 @@ If everything runs successfully, the terminal will output:
 ```yaml
 Collection created: example_collection
 ```
+### Importing Medical Data into Milvus
+After you have successfully installed and started Milvus, you can use the script `import.py` to load your dataset into the Milvus vector database.  
+```python
+python import.py \
+    --jsonl ./finetune/dataset/huatuo_sample.jsonl \
+    --emb-model /path/to/Qwen2-embedding \
+    --collection huatuo_qa \
+    --milvus-host localhost \
+    --milvus-port 19530 \
+    --device cuda
+```
+#### What this does:
+1.Reads the Huatuo medical dataset from the .jsonl file.  
+2.Converts each question–answer pair into an embedding using the specified embedding model.  
+3.Saves all the embeddings into the Milvus collection (default name: huatuo_qa).  
+4.If the collection already exists and contains data, it skips re-importing.
+#### Example Output:
+```css
+[→] Writing 1000 vectors to Milvus ...
+[✓] Completed!
+```
