@@ -111,7 +111,7 @@ python import.py \
 After you have uploaded your medical Q&A dataset to Milvus (using the `import.py` script), you can start the retrieval-augmented generation (RAG) question-answering system by running `medical_qa.py`.  
 This script connects your local large language model (LLM) and the Milvus vector database to perform knowledge-augmented reasoning and question answering.  
 #### Run the RAG QA script:
-```python
+```bash
 python medical_qa.py \
     --collection huatuo_qa \
     --milvus-host localhost \
@@ -122,7 +122,7 @@ python medical_qa.py \
     --query "A 55-year-old male has nighttime shortness of breath and leg swelling."
 ```
 Or run interactively:
-```python
+```bash
 python medical_qa.py \
     --collection huatuo_qa \
     --milvus-host localhost \
