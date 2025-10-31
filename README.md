@@ -104,7 +104,7 @@ python import.py \
 3.Saves all the embeddings into the Milvus collection (default name: huatuo_qa).  
 4.If the collection already exists and contains data, it skips re-importing.
 #### Example Output:
-```css
+```
 [→] Writing 1000 vectors to Milvus ...
 [✓] Completed!
 ```
