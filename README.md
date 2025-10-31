@@ -42,7 +42,7 @@ If you want to access it over a local network or the internet, replace localhost
 
 ## Retrieval-Augmented Generation (RAG)
 To set up the RAG environment, you can follow these steps. We use Milvus as our victor database.  Milvus is an open-source vector database designed for scalable similarity search.  
-### Here’s a step-by-step guide to help you set it up in your environment:
+### A.Here’s a step-by-step guide to help you set it up in your environment:
 ### 1.Install Docker
 Milvus provides official Docker images, so installing Docker is the easiest way to set up the environment.  
 For Ubuntu, MacOS and Windows: Download and install Docker from [Docker's official website](https://www.docker.com/products/docker-desktop).
@@ -87,7 +87,7 @@ If everything runs successfully, the terminal will output:
 ```yaml
 Collection created: example_collection
 ```
-### Importing Medical Data into Milvus
+### B.Importing Medical Data into Milvus
 After you have successfully installed and started Milvus, you can use the script `import.py` to load your dataset into the Milvus vector database.  
 ```bash
 python import.py \
@@ -102,9 +102,48 @@ python import.py \
 1.Reads the Huatuo medical dataset from the .jsonl file.  
 2.Converts each question–answer pair into an embedding using the specified embedding model.  
 3.Saves all the embeddings into the Milvus collection (default name: huatuo_qa).  
-4.If the collection already exists and contains data, it skips re-importing.
 #### Example Output:
 ```
 [→] Writing 1000 vectors to Milvus ...
 [✓] Completed!
+```
+### C.Run the RAG-based Medical QA System
+After you have uploaded your medical Q&A dataset to Milvus (using the `import.py` script), you can start the retrieval-augmented generation (RAG) question-answering system by running `medical_qa.py`.  
+This script connects your local large language model (LLM) and the Milvus vector database to perform knowledge-augmented reasoning and question answering.  
+#### Run the RAG QA script:
+```python
+python medical_qa.py \
+    --collection huatuo_qa \
+    --milvus-host localhost \
+    --milvus-port 19530 \
+    --emb-model /path/to/Qwen3-Embedding-0.6B \
+    --llm-model Qwen3-8B \
+    --llm-endpoint http://localhost:8000/v1 \
+    --query "A 55-year-old male has nighttime shortness of breath and leg swelling."
+```
+Or run interactively:
+```python
+python medical_qa.py \
+    --collection huatuo_qa \
+    --milvus-host localhost \
+    --milvus-port 19530 \
+    --emb-model /path/to/Qwen3-Embedding-0.6B \
+    --llm-model Qwen3-8B \
+    --llm-endpoint http://localhost:8000/v1
+```
+#### What Happens
+The script connects to the Milvus database that stores your vectorized medical data.  
+It uses the Qwen-Embedding model to compute embeddings for user queries.  
+Then it retrieves the most relevant documents (e.g., medical Q&A pairs) from Milvus.  
+The retrieved context is passed to your locally deployed LLM (Qwen3-8B).  
+The LLM generates an answer based on both the question and the retrieved medical knowledge.
+#### Example Output
+```
+[AI]
+Based on the symptoms, the patient may have heart failure related to hypertension.
+Recommendation: consult a cardiologist for echocardiography and further management.
+
+[Source questions]
+1. 内容：问题：夜间呼吸困难并双下肢水肿怎么办？ 答案：考虑心功能不全，应就诊心内科。
+   元信息：{'question': '夜间呼吸困难并双下肢水肿怎么办？', 'answer': '考虑心功能不全，应就诊心内科。'}
 ```
