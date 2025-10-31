@@ -91,9 +91,9 @@ Collection created: example_collection
 After you have successfully installed and started Milvus, you can use the script `import.py` to load your dataset into the Milvus vector database.  
 ```bash
 python import.py \
-    --jsonl ./finetune/dataset/huatuo_sample.jsonl \
-    --emb-model /path/to/Qwen2-embedding \
-    --collection huatuo_qa \
+    --jsonl ./rag/data/huatuo_sample.jsonl \
+    --emb-model /path/to/Qwen3-embedding \
+    --collection medical_qa \
     --milvus-host localhost \
     --milvus-port 19530 \
     --device cuda
