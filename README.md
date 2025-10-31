@@ -41,8 +41,7 @@ http://localhost:7860
 If you want to access it over a local network or the internet, replace localhost with your server's IP address.
 
 ## Retrieval-Augmented Generation (RAG)
-To set up the RAG environment, you can follow these steps. We use Milvus as our victor database.  
-Milvus is an open-source vector database designed for scalable similarity search.  
+To set up the RAG environment, you can follow these steps. We use Milvus as our victor database.  Milvus is an open-source vector database designed for scalable similarity search.  
 Here’s a step-by-step guide to help you set it up in your environment:
 ### 1.Install Docker
 Milvus provides official Docker images, so installing Docker is the easiest way to set up the environment.  
