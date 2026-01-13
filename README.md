@@ -100,6 +100,7 @@ CAMEC employs a unified **LLM-as-a-Judge** to ensure reliability:
 This mechanism acts as an explicit quality-control layer for high-stakes medical QA.
 
 ## Repository Structure
+```
 .
 ├── finetune/
 │   ├── sft_train.sh          # Three-stage LoRA-based SFT
@@ -119,4 +120,4 @@ This mechanism acts as an explicit quality-control layer for high-stakes medical
 │
 ├── requirements.txt
 └── README.md
-
+```
