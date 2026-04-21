@@ -1,4 +1,7 @@
 # CAMEC: Complexity-Aware Multi-Expert Collaboration for Chinese Medical QA
+[![Paper](https://img.shields.io/badge/Paper-ACL%202026-blue)]()
+[![License](https://img.shields.io/badge/License-Apache%202.0-green)]()
+[![Python](https://img.shields.io/badge/Python-3.10%2B-orange)]()
 
 CAMEC is a **research-oriented Chinese medical large language model (LLM) system**
 that integrates **hierarchical medical fine-tuning**, **complexity-aware expert routing**,
