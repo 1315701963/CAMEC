@@ -1,4 +1,4 @@
-# CAMEC: Complexity-Aware Multi-Expert Collaboration for Chinese Medical QA
+# CAMEC: Complexity-Aware Multi-Expert Collaboration for Reliable Chinese Medical QA
 [![Paper](https://img.shields.io/badge/Paper-ACL%202026-blue)]()
 [![License](https://img.shields.io/badge/License-Apache%202.0-green)]()
 [![Python](https://img.shields.io/badge/Python-3.10%2B-orange)]()
