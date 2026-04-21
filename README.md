@@ -112,6 +112,44 @@ CAMEC employs a unified **LLM-as-a-Judge** to ensure reliability:
 
 This mechanism acts as an explicit quality-control layer for high-stakes medical QA.
 
+## Data
+## Data
+
+The following public datasets and resources are used in this project.
+
+### 1. SFT Data
+
+Our three-stage supervised fine-tuning (SFT) pipeline uses the following datasets:
+
+- **Stage 1 — Huatuo26M-Lite**  
+  Chinese medical dialogue data for domain adaptation.  
+  Hugging Face: `https://huggingface.co/datasets/FreedomIntelligence/Huatuo26M-Lite`
+
+- **Stage 2 — HuatuoGPT2-SFT-GPT4-140K**  
+  GPT-4-generated Chinese medical instruction-following data.  
+  Hugging Face: `https://huggingface.co/datasets/FreedomIntelligence/HuatuoGPT2-SFT-GPT4-140K`
+
+- **Stage 3 — medical-o1-reasoning-SFT**  
+  Medical reasoning supervision data for improving complex clinical reasoning.  
+  Hugging Face: `https://huggingface.co/datasets/FreedomIntelligence/medical-o1-reasoning-SFT`
+
+### 2. RAG Corpus
+
+The retrieval database is constructed from:
+
+- **huatuo_encyclopedia_qa**  
+  A large-scale Chinese medical QA corpus used to build the Milvus-based retrieval index.  
+  Hugging Face: `https://huggingface.co/datasets/FreedomIntelligence/huatuo_encyclopedia_qa`
+
+### 3. Knowledge Graph
+
+The knowledge graph used in this project is based on an external GitHub resource.
+
+- **Medical Knowledge Graph**  
+  GitHub: `YOUR_GITHUB_KG_LINK_HERE`
+
+
+
 ## Repository Structure
 ```
 .
