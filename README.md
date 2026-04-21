@@ -7,7 +7,7 @@ and **multi-expert collaboration** to improve reliability in complex medical que
 This repository provides a **system-level implementation** of the framework proposed in:
 
 > **CAMEC: Complexity-Aware Multi-Expert Collaboration for Reliable Chinese Medical Question Answering**  
-> (ACL submission)
+> (ACL2026 Main Conference)
 
 ## Overview
 
