@@ -172,3 +172,43 @@ The knowledge graph used in this project is based on an external GitHub resource
 ├── requirements.txt
 └── README.md
 ```
+
+
+## Experimental Results
+
+Results on the **MedQA-CN** test set (3,426 questions, 4-option single-choice):
+
+### Ablation Study Results on CMExam
+
+| Fine-Tune | Reason Expert | RAG Expert | KG Expert | Accuracy (%) |
+|----------|--------------|------------|-----------|--------------|
+| -        | -            | -          | -         | 72.30        |
+| ✓        | -            | -          | -         | 73.91        |
+| -        | ✓            | ✓          | ✓         | 77.14        |
+| ✓        | -            | ✓          | ✓         | 77.05        |
+| ✓        | ✓            | -          | ✓         | 76.16        |
+| ✓        | ✓            | ✓          | -         | 76.83        |
+| ✓        | ✓            | ✓          | ✓         | **78.86**    |
+
+---
+
+## Citation
+
+If you use CAMEC in your research, please cite:
+
+```bibtex
+@inproceedings{camec2026,
+  title     = {{CAMEC}: Complexity-Aware Multi-Expert Collaboration for Reliable
+               Chinese Medical Question Answering},
+  author    = {Wu, Yukang and others},
+  booktitle = {Proceedings of the 64th Annual Meeting of the Association for
+               Computational Linguistics (ACL 2026)},
+  year      = {2026},
+}
+```
+
+---
+
+## Disclaimer
+
+This repository is released for **research purposes only**. The system is not a certified medical device and must not be used for clinical diagnosis, treatment decisions, or patient care. Always consult a qualified healthcare professional for medical advice.
