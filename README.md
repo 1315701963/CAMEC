@@ -174,10 +174,6 @@ The knowledge graph used in this project is based on an external GitHub resource
 ```
 
 
-## Experimental Results
-
-Results on the **MedQA-CN** test set (3,426 questions, 4-option single-choice):
-
 ### Ablation Study Results on CMExam
 
 | Fine-Tune | Reason Expert | RAG Expert | KG Expert | Accuracy (%) |
