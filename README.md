@@ -146,7 +146,7 @@ The retrieval database is constructed from:
 The knowledge graph used in this project is based on an external GitHub resource.
 
 - **Medical Knowledge Graph**  
-  GitHub: `YOUR_GITHUB_KG_LINK_HERE`
+  GitHub: `https://github.com/honeyandme/RAGQnASystem`
 
 
 
