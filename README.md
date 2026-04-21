@@ -27,6 +27,16 @@ Rather than relying on a single reasoning path, CAMEC coordinates
 and **Knowledge Graph (KG)** experts under a unified **LLM-as-a-Judge**
 mechanism to produce medically correct, consistent, and interpretable outputs.
 
+## Framework Overview
+
+<p align="center">
+  <img src="assets/framework.png" width="100%">
+</p>
+
+<p align="center">
+  <em>Overview of the CAMEC framework.</em>
+</p>
+
 ## System Architecture
 
 CAMEC consists of four core components:
