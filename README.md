@@ -112,7 +112,7 @@ CAMEC employs a unified **LLM-as-a-Judge** to ensure reliability:
 
 This mechanism acts as an explicit quality-control layer for high-stakes medical QA.
 
-## Data
+
 ## Data
 
 The following public datasets and resources are used in this project.
