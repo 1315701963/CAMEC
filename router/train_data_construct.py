@@ -19,7 +19,9 @@ print(f"Loaded {len(ds)} questions")
 ds_list = ds.to_list()
 # print(ds_list[0])  # Print the first sample to check the structure
 
-"""
+# Function to annotate the complexity of each question
+def gpt4_complexity_annotation(sample):
+    prompt = f"""
     作为医学专家，请根据医学诊断复杂度模型（Medical Complexity Score, MCS）对以下问题进行评估。
 
     问题：{sample['Question']}
@@ -44,30 +46,6 @@ ds_list = ds.to_list()
         "overall_level": <"LOW"/"MEDIUM"/"HIGH">,
         "reasoning": "<简短解释>"
         "Question": {sample['Question']}
-    }}
-    """
-
-# Function to annotate the complexity of each question
-def gpt4_complexity_annotation(sample):
-    prompt = f"""
-    作为医学专家，请评估以下医疗问题的诊断复杂度：
-
-    问题：{sample['Question']}
-
-    请从以下维度打分（0-3分）：
-    1. 症状模糊度：症状是否非特异性、描述是否完整
-    2. 疾病罕见度：涉及的疾病是否罕见
-    3. 并发症风险：是否涉及多系统、有既往病史
-    4. 诊断不确定性：鉴别诊断数量、需要的检查复杂度
-
-    返回严格JSON格式，不要输出额外内容：
-    {{
-        "symptom_ambiguity": <score>,
-        "disease_rarity": <score>,
-        "comorbidity_risk": <score>,
-        "diagnostic_uncertainty": <score>,
-        "overall_level": <"LOW"/"MEDIUM"/"HIGH">,
-        "reasoning": "<简短解释>"
     }}
     """
 
