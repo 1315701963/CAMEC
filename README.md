@@ -219,52 +219,75 @@ bash finetune/lora_export.sh  # merge LoRA adapters into the base model
 
 ## Quick Start
 
-The main entry point is `medqa-cn-router.py`, which runs the full CAMEC pipeline on the MedQA-CN benchmark.
-
-**Step 1 — Set model paths** in `medqa-cn-router.py`:
+**1. Configure model paths**
 
 ```python
-MODEL_NAME        = "path/to/finetuned-8B-model"   # fine-tuned Qwen3-8B (lora_export)
+MODEL_NAME        = "path/to/finetuned-8B-model"   # fine-tuned Qwen3-8B
 ROUTER_MODEL_PATH = "path/to/router-0.6B"           # fine-tuned Qwen3-0.6B router
-EMB_PATH          = "path/to/Qwen3-Embedding-0.6B"  # embedding model for RAG
+EMB_PATH          = "path/to/Qwen3-Embedding-0.6B"
 ```
 
-**Step 2 — Start external services** (Milvus + Neo4j must be running):
+**2. Start external services**
 
 ```bash
-# Milvus
+# Milvus (vector retrieval)
 docker run -d --name milvus -p 19530:19530 \
   -v $PWD/milvus_data:/var/lib/milvus milvusdb/milvus:v2.5.2 milvus run standalone
 
-# Neo4j
+# Neo4j (knowledge graph)
 docker run -d --name neo4j-camec -p 7474:7474 -p 7687:7687 \
   -e NEO4J_AUTH=neo4j/password neo4j:5
 
-# Import RAG corpus into Milvus
+# Import RAG corpus
 python rag/import.py
 ```
 
-**Step 3 — Run evaluation**:
+**3. Run inference**
 
-```bash
-python medqa-cn-router.py
+```python
+import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import Milvus
+from py2neo import Graph
+
+# Load models
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+model     = AutoModelForCausalLM.from_pretrained(MODEL_NAME, torch_dtype=torch.float16, device_map="auto").eval()
+
+router_tokenizer = AutoTokenizer.from_pretrained(ROUTER_MODEL_PATH)
+router_model     = AutoModelForCausalLM.from_pretrained(ROUTER_MODEL_PATH, torch_dtype=torch.float16, device_map="auto").eval()
+
+# Connect external knowledge sources
+vecstore = Milvus(HuggingFaceEmbeddings(model_name=EMB_PATH), collection_name="huatuo_qa",
+                  connection_args={"host": "localhost", "port": "19530"})
+kg = Graph("bolt://localhost:7687", auth=("neo4j", "password"))
+
+# Example question (CMExam / MedQA-CN format)
+example = {
+    "Question": "患者男性，58岁，反复咳嗽、咳痰20年，加重伴喘息5年，最可能的诊断是？",
+    "Options": [
+        {"key": "A", "value": "支气管哮喘"},
+        {"key": "B", "value": "慢性阻塞性肺疾病"},
+        {"key": "C", "value": "支气管扩张"},
+        {"key": "D", "value": "肺结核"},
+    ]
+}
+
+# Step 1: Router predicts complexity (LOW / MEDIUM / HIGH)
+complexity = assess_complexity(example)   # defined in router/router.py
+
+# Step 2: Activate experts based on complexity
+#   LOW   → CoT expert only
+#   MEDIUM → CoT + RAG expert
+#   HIGH   → CoT + RAG + KG expert
+expert_answers, expert_texts = run_experts(example, complexity, model, tokenizer,
+                                           vecstore=vecstore, kg=kg)
+
+# Step 3: Judge scores reports and synthesizes final answer
+final_answer = run_judge(example, expert_answers, expert_texts, model, tokenizer)
+print(f"Predicted: {final_answer}")  # e.g. "B"
 ```
-
-The pipeline processes each question through three stages:
-
-```
-Query
-  └─ Router (Qwen3-0.6B) → MCS score → complexity level (LOW / MEDIUM / HIGH)
-       │
-       ├─ LOW   → CoT Expert only
-       ├─ MEDIUM → CoT Expert + RAG Expert (Milvus retrieval)
-       └─ HIGH   → CoT Expert + RAG Expert + KG Expert (Neo4j)
-                       │
-                   Judge (fine-tuned 8B) → scores each expert report
-                                         → synthesizes final answer
-```
-
-Results and per-question logs are saved to `log/medqa-cn-router-adaptive1.log`.
 
 ---
 
