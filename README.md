@@ -1,4 +1,7 @@
 # CAMEC: Complexity-Aware Multi-Expert Collaboration for Reliable Chinese Medical QA
+[![Paper](https://img.shields.io/badge/Paper-ACL%202026-blue)]()
+[![License](https://img.shields.io/badge/License-Apache%202.0-green)]()
+[![Python](https://img.shields.io/badge/Python-3.10%2B-orange)]()
 
 > **Accepted at ACL 2026 Main Conference**
 
@@ -216,19 +219,52 @@ bash finetune/lora_export.sh  # merge LoRA adapters into the base model
 
 ## Quick Start
 
+The main entry point is `medqa-cn-router.py`, which runs the full CAMEC pipeline on the MedQA-CN benchmark.
+
+**Step 1 — Set model paths** in `medqa-cn-router.py`:
+
 ```python
-from router.router import ComplexityRouter
-from judge.judge import JudgeModule
-
-router = ComplexityRouter.from_pretrained("path/to/router")
-judge  = JudgeModule.from_pretrained("path/to/finetuned-model")
-
-query = "患者男性，60岁，夜间呼吸困难伴双下肢水肿，既往高血压病史。"
-
-complexity = router.predict(query)          # LOW / MEDIUM / HIGH
-result     = judge.answer(query, complexity)
-print(result)
+MODEL_NAME        = "path/to/finetuned-8B-model"   # fine-tuned Qwen3-8B (lora_export)
+ROUTER_MODEL_PATH = "path/to/router-0.6B"           # fine-tuned Qwen3-0.6B router
+EMB_PATH          = "path/to/Qwen3-Embedding-0.6B"  # embedding model for RAG
 ```
+
+**Step 2 — Start external services** (Milvus + Neo4j must be running):
+
+```bash
+# Milvus
+docker run -d --name milvus -p 19530:19530 \
+  -v $PWD/milvus_data:/var/lib/milvus milvusdb/milvus:v2.5.2 milvus run standalone
+
+# Neo4j
+docker run -d --name neo4j-camec -p 7474:7474 -p 7687:7687 \
+  -e NEO4J_AUTH=neo4j/password neo4j:5
+
+# Import RAG corpus into Milvus
+python rag/import.py
+```
+
+**Step 3 — Run evaluation**:
+
+```bash
+python medqa-cn-router.py
+```
+
+The pipeline processes each question through three stages:
+
+```
+Query
+  └─ Router (Qwen3-0.6B) → MCS score → complexity level (LOW / MEDIUM / HIGH)
+       │
+       ├─ LOW   → CoT Expert only
+       ├─ MEDIUM → CoT Expert + RAG Expert (Milvus retrieval)
+       └─ HIGH   → CoT Expert + RAG Expert + KG Expert (Neo4j)
+                       │
+                   Judge (fine-tuned 8B) → scores each expert report
+                                         → synthesizes final answer
+```
+
+Results and per-question logs are saved to `log/medqa-cn-router-adaptive1.log`.
 
 ---
 
